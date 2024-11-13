@@ -55,6 +55,10 @@ public class User implements UserDetails {
     @Column(name = "code_sent_at")
     private LocalDateTime codeSentAt;
 
+    public String getUsername1() {
+        return this.username;
+    }
+
 
 //    @Column(name = "is_deleted")
 //    private Boolean isDeleted;
@@ -86,6 +90,6 @@ public class User implements UserDetails {
 
     @Override
     public String getUsername() {
-        return this.getUsername();
+        return this.getUsername1();
     }
 }

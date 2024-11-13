@@ -92,7 +92,7 @@ public class AuthController {
         } else if (!userOptional.get().getIsVerified()) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body("This user is not verified yet");
         }
-        authenticationProvider.authenticate(new UsernamePasswordAuthenticationToken(userOptional.get().getUsername(), loginDTO.getPassword()));
+        authenticationProvider.authenticate(new UsernamePasswordAuthenticationToken(userOptional.get().getUsername1(), loginDTO.getPassword()));
         Map<String, String> tokens = jwtService.generateTokens(loginDTO.getUsername());
 
         AuthDTO authDTO = modelMapper.map(userOptional.get(), AuthDTO.class);
@@ -149,7 +149,7 @@ public class AuthController {
         String code = generateCode();
         userService.saveUserConfirmationCode(user.get().getId(), code);
 
-        emailService.sendEmail(emailDTO.getEmail(), "Turamyzba Reset Password", "Your code is: " + code);
+        emailService.sendEmail(emailDTO.getEmail(), "SkillIntern Reset Password", "Your code is: " + code);
 
         return ResponseEntity.ok("Reset password instructions have been sent to your email.");
     }

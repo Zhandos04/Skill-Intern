@@ -48,7 +48,7 @@ spring:
             user-info-uri: https://openidconnect.googleapis.com/v1/userinfo
             user-name-attribute: sub
 jwt:
-  secret: adsflkjasdfadf
+  secret: f20be2a4a63bb8c9f2b5ecbed7f0971a96d66e30f3f7c76b56a6e0361ea8e76a
 
 server:
   servlet:

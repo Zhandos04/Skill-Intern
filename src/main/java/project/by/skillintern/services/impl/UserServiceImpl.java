@@ -28,8 +28,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDetails loadUserByUsername(String username) {
-        User user = getUserByEmail(username).get();
-        return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), user.getAuthorities());
+        User user = getUserByUsername(username).get();
+        return new org.springframework.security.core.userdetails.User(user.getUsername1(), user.getPassword(), user.getAuthorities());
     }
 
     @Transactional
