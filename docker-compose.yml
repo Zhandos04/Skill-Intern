@@ -1,12 +1,12 @@
 services:
-  sducanteen_db:
+  db:
     image: postgres
     environment:
       POSTGRES_DB: SkillIntern
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: zhandos04
     volumes:
-      - pg_sducanteen:/var/lib/postgresql/data
+      - db-data:/var/lib/postgresql/data
     ports:
       - "5433:5432"
 
@@ -15,11 +15,11 @@ services:
     ports:
       - "8080:8080"
     depends_on:
-      - sducanteen_db
+      - db
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://sducanteen_db:5432/SkillIntern
       SPRING_DATASOURCE_USERNAME: postgres
       SPRING_DATASOURCE_PASSWORD: zhandos04
 
 volumes:
-  pg_sducanteen:
+  db-data:
