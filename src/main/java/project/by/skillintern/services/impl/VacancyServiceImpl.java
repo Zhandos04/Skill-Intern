@@ -2,12 +2,15 @@ package project.by.skillintern.services.impl;
 
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import project.by.skillintern.dto.requests.FilterVacancyDTO;
 import project.by.skillintern.dto.requests.VacancyDTO;
 import project.by.skillintern.entities.User;
 import project.by.skillintern.entities.Vacancy;
 import project.by.skillintern.repositories.VacancyRepository;
+import project.by.skillintern.repositories.VacancySpecification;
 import project.by.skillintern.services.VacancyService;
 
 import java.util.List;
@@ -32,5 +35,11 @@ public class VacancyServiceImpl implements VacancyService {
         return vacancyRepository.findAll().stream()
                 .filter(job -> job.getEmployer().equals(employer))
                 .toList();
+    }
+
+    @Override
+    public List<Vacancy> getVacanciesByFilter(FilterVacancyDTO filterVacancyDTO) {
+        Specification<Vacancy> specification = VacancySpecification.filterVacancies(filterVacancyDTO);
+        return vacancyRepository.findAll(specification);
     }
 }

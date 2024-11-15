@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import project.by.skillintern.dto.requests.FilterVacancyDTO;
 import project.by.skillintern.dto.requests.VacancyDTO;
 import project.by.skillintern.entities.User;
 import project.by.skillintern.entities.Vacancy;
@@ -43,8 +44,12 @@ public class VacancyController {
     private ResponseEntity<List<Vacancy>> all() {
         return ResponseEntity.ok(vacancyService.getAllVacancies());
     }
+    @GetMapping("/by-filter")
+    private ResponseEntity<List<Vacancy>> vacanciesByFilter(@RequestBody FilterVacancyDTO filterVacancyDTO) {
+        return ResponseEntity.ok(vacancyService.getVacanciesByFilter(filterVacancyDTO));
+    }
     @GetMapping("/my-vacancies")
-    public ResponseEntity<List<Vacancy>> getMyJobPostings() {
+    public ResponseEntity<List<Vacancy>> getMyVacancies() {
         User currentUser = userService.getUserByUsername(userService.getCurrentUser().getUsername())
                 .orElseThrow(() -> new RuntimeException("User not found"));
 

@@ -29,7 +29,8 @@ public class SecurityConfiguration {
             "/swagger-ui/**",
             "/swagger-ui.html",
             "/auth/**",
-            "/vacancies/all"
+            "/vacancies/all",
+            "/vacancies/by-filter"
     };
 
 
