@@ -3,6 +3,8 @@ package project.by.skillintern.services.impl;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -80,7 +82,6 @@ public class UserServiceImpl implements UserService {
         userRepository.deleteExpiredUnverifiedUsers(expirationTime);
     }
 
-
     @Transactional
     @Override
     public void saveUserConfirmationCode(Long id, String code) {
@@ -110,6 +111,15 @@ public class UserServiceImpl implements UserService {
     @Override
     public Optional<User> getUserByUsername(String username) {
         return userRepository.findByUsername(username);
+    }
+
+    @Override
+    public UserDetails getCurrentUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null && authentication.isAuthenticated()) {
+            return (UserDetails) authentication.getPrincipal();
+        }
+        return null;
     }
 
     private User convertToUser(UserDTO userDTO) {

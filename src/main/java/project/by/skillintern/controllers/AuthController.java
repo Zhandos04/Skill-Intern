@@ -34,7 +34,6 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/auth")
-@CrossOrigin(origins = "*")
 @Tag(name="Auth", description="Взаймодействие с пользователями")
 @RequiredArgsConstructor
 public class AuthController {
@@ -93,7 +92,7 @@ public class AuthController {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body("This user is not verified yet");
         }
         authenticationProvider.authenticate(new UsernamePasswordAuthenticationToken(userOptional.get().getUsername1(), loginDTO.getPassword()));
-        Map<String, String> tokens = jwtService.generateTokens(loginDTO.getUsername());
+        Map<String, String> tokens = jwtService.generateTokens(loginDTO.getUsername(), userOptional.get().getRole().name());
 
         AuthDTO authDTO = modelMapper.map(userOptional.get(), AuthDTO.class);
         authDTO.setAccessToken(tokens.get("accessToken"));
@@ -118,8 +117,9 @@ public class AuthController {
                     String userName = jwtService.extractUsername(refreshToken);
                     // Проверка, что пользователь существует и активен
                     UserDetails userDetails = userService.loadUserByUsername(userName);
+                    String role = userService.getUserByUsername(userName).get().getRole().name();
                     if (userDetails != null && !jwtService.isTokenExpired(refreshToken)) {
-                        String newAccessToken = jwtService.generateTokens(userName).get("accessToken");
+                        String newAccessToken = jwtService.generateTokens(userName, role).get("accessToken");
                         Map<String, String> tokens = new HashMap<>();
                         tokens.put("accessToken", newAccessToken);
                         tokens.put("refreshToken", refreshToken); // Отправляем тот же рефреш токен обратно

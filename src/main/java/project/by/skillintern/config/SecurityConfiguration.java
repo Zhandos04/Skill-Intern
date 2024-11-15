@@ -9,6 +9,7 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import project.by.skillintern.exceptions.handler.CustomAccessDeniedHandler;
 import project.by.skillintern.jwt.JwtFilter;
 
 @EnableWebSecurity
@@ -27,7 +28,8 @@ public class SecurityConfiguration {
             "/swagger-resources/**",
             "/swagger-ui/**",
             "/swagger-ui.html",
-            "/auth/**"
+            "/auth/**",
+            "/vacancies/all"
     };
 
 
@@ -37,10 +39,12 @@ public class SecurityConfiguration {
 
         http.authorizeHttpRequests(auth -> auth
                 .requestMatchers(WHITE_LIST_URL).permitAll()
-                .requestMatchers("/api/admin/**").hasRole("ADMIN")
-                .requestMatchers("/api/employers/**").hasRole("EMPLOYER")
-                .requestMatchers("/api/users/**").hasRole("USER")
+                .requestMatchers("/vacancies/add", "/vacancies/my-vacancies").hasRole("EMPLOYER")
                 .anyRequest().authenticated()
+        );
+
+        http.exceptionHandling(exception -> exception
+                .accessDeniedHandler(new CustomAccessDeniedHandler())
         );
 
         http.sessionManagement(req -> req.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
