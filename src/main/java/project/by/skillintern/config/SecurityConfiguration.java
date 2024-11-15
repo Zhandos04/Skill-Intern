@@ -36,10 +36,11 @@ public class SecurityConfiguration {
         http.csrf(AbstractHttpConfigurer::disable);
 
         http.authorizeHttpRequests(auth -> auth
-                .requestMatchers(WHITE_LIST_URL)
-                .permitAll()
-                .anyRequest()
-                .authenticated()
+                .requestMatchers(WHITE_LIST_URL).permitAll()
+                .requestMatchers("/api/admin/**").hasRole("ADMIN")
+                .requestMatchers("/api/employers/**").hasRole("EMPLOYER")
+                .requestMatchers("/api/users/**").hasRole("USER")
+                .anyRequest().authenticated()
         );
 
         http.sessionManagement(req -> req.sessionCreationPolicy(SessionCreationPolicy.STATELESS));

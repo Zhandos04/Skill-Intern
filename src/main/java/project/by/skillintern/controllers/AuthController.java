@@ -182,6 +182,6 @@ public class AuthController {
     }
 
     private String generateCode() {
-        return Integer.toString((int)(Math.random() * 9000) + 1000);
+        return Integer.toString((int)(Math.random() * 900000) + 100000);
     }
 }
