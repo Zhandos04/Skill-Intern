@@ -17,7 +17,7 @@ services:
     depends_on:
       - db
     environment:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://sducanteen_db:5432/SkillIntern
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/SkillIntern
       SPRING_DATASOURCE_USERNAME: postgres
       SPRING_DATASOURCE_PASSWORD: zhandos04
 
