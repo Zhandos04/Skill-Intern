@@ -8,10 +8,12 @@ public class ResponseDTO {
     private String email;
     private String username;
     private String status;
-    public ResponseDTO(Long id, String email, String username, String status) {
+    private String resume;
+    public ResponseDTO(Long id, String email, String username, String status, String resume) {
         this.id = id;
         this.email = email;
         this.username = username;
         this.status = status;
+        this.resume = resume;
     }
 }
