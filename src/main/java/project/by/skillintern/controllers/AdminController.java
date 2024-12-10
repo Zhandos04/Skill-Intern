@@ -5,6 +5,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import project.by.skillintern.dto.requests.NewsDTO;
 import project.by.skillintern.dto.requests.UserDTO;
 import project.by.skillintern.services.NewsService;
@@ -28,8 +29,15 @@ public class AdminController {
     }
     @PostMapping("/addNews")
     @Operation(summary = "Add news. Only ADMIN")
-    public ResponseEntity<?> addNews(@RequestBody NewsDTO newsDTO) {
+    public ResponseEntity<?> addNews(@RequestParam("title") String title,
+                                     @RequestParam("description") String description,
+                                     @RequestParam("image") MultipartFile image) {
         try {
+            NewsDTO newsDTO = new NewsDTO();
+            newsDTO.setTitle(title);
+            newsDTO.setDescription(description);
+            newsDTO.setImage(image);
+
             newsService.addNews(newsDTO);
             return ResponseEntity.status(200).body("News added successfully!");
         } catch (IOException e) {
