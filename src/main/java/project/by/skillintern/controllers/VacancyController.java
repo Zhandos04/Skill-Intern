@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import project.by.skillintern.dto.requests.VacancyDTO;
 import project.by.skillintern.dto.responses.VacancyResponseDTO;
 import project.by.skillintern.entities.User;
+import project.by.skillintern.entities.Vacancy;
 import project.by.skillintern.services.UserService;
 import project.by.skillintern.services.VacancyService;
 import java.util.List;
@@ -98,5 +99,11 @@ public class VacancyController {
         User currentUser = userService.getUserByUsername(userService.getCurrentUser().getUsername())
                 .orElseThrow(() -> new RuntimeException("User not found"));
         return ResponseEntity.ok(vacancyService.getVacanciesByEmployer(currentUser));
+    }
+    @GetMapping("/search")
+    @Operation(summary = "Get vacancies by search text.")
+    public ResponseEntity<List<VacancyResponseDTO>> searchVacancies(@RequestParam String searchText) {
+        List<VacancyResponseDTO> vacancies = vacancyService.searchVacancies(searchText);
+        return new ResponseEntity<>(vacancies, HttpStatus.OK);
     }
 }
